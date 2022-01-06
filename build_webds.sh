@@ -60,6 +60,10 @@ Build_ext() {
         echo ${ext}
         if [ ! -d ${ext_dir}/${ext} ]; then
             git clone https://github.com/${github}/${ext}.git
+        else
+            pushd ${ext_dir}/${ext}
+            git pull https://github.com/${github}/${ext}.git
+            popd
         fi
         pushd ${ext_dir}/${ext}
         git pull
@@ -87,6 +91,10 @@ Build_qmao() {
     echo ${ext}
     if [ ! -d ${ext_dir}/${q_gitrepo} ]; then
         git clone https://github.com/${q_github}/${q_gitrepo}.git
+    else
+        pushd ${ext_dir}/${q_gitrepo}
+        git pull https://github.com/${q_github}/${q_gitrepo}.git
+        popd
     fi
     pushd ${ext_dir}/${q_gitrepo}
     git pull
@@ -148,6 +156,10 @@ if [ ! -d ${ext_dir} ]; then
 fi
 if [ ! -d ${deb_dir} ]; then
     git clone https://github.com/${github}/${debrepo}.git ${deb_dir}
+else
+    pushd ${deb_dir}
+    git pull https://github.com/${github}/${debrepo}.git
+    popd
 fi
 if [ ! -d ${deb_dir}/wheelhouse ]; then
     mkdir -p ${deb_dir}/wheelhouse

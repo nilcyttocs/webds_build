@@ -55,6 +55,10 @@ done
 start=`date +%s`
 if [ ! -d ${deb_dir} ]; then
     git clone https://github.com/${github}/${debrepo}.git ${deb_dir}
+else
+    pushd ${deb_dir}
+    git pull https://github.com/${github}/${debrepo}.git
+    popd
 fi
 if [ ! -d ${deb_dir}/pinormos-jupyterlab/jupyterlab-deb/var/spool/syna/jupyterlab_wheels ]; then
     mkdir -p ${deb_dir}/pinormos-jupyterlab/jupyterlab-deb/var/spool/syna/jupyterlab_wheels
