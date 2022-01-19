@@ -8,6 +8,8 @@ debrepo=webds_deb
 q_github=qmao
 q_gitrepo=syna_webds
 
+t_github=tomc4798
+
 source=false
 debonly=false
 extonly=false
@@ -29,9 +31,11 @@ declare -a exts=("webds_doc_launcher"
                 "webds_status"
                 )
 
-declare -a q_exts=("erase-and-program"
+declare -a q_exts=("reprogram"
                 "server-extension"
                 )
+
+declare -a t_exts=("webds_device_info")
 
 pushd () {
     command pushd "$@" > /dev/null
@@ -120,6 +124,38 @@ Build_qmao() {
     popd
 }
 
+Build_tom() {
+    pushd ${ext_dir}
+
+    for ext in "${t_exts[@]}" ; do
+        echo ${ext}
+        if [ ! -d ${ext_dir}/${ext} ]; then
+            git clone https://github.com/${t_github}/${ext}.git
+        else
+            pushd ${ext_dir}/${ext}
+            git pull https://github.com/${t_github}/${ext}.git
+            popd
+        fi
+        pushd ${ext_dir}/${ext}
+        git pull
+        if [ ! -f tsconfig.tsbuildinfo ]; then
+            pip3 install -ve .
+        else
+            jlpm run build
+        fi
+        rm -fr dist
+        if [ ${source} = true ]; then
+            python3 -m build
+        else
+            python3 -m build --wheel
+        fi
+        cp dist/*.whl ${deb_dir}/wheelhouse/.
+        popd
+    done
+
+    popd
+}
+
 Build_deb() {
     pushd ${deb_dir}
 
@@ -161,17 +197,19 @@ else
     git pull https://github.com/${github}/${debrepo}.git
     popd
 fi
-if [ ! -d ${deb_dir}/wheelhouse ]; then
-    mkdir -p ${deb_dir}/wheelhouse
-fi
-if [ ! -d ${deb_dir}/pinormos-webds/webds-deb/var/spool/syna/jupyterlab_webds ]; then
-    mkdir -p ${deb_dir}/pinormos-webds/webds-deb/var/spool/syna/jupyterlab_webds
-fi
 if [ ${debonly} = false ]; then
+    if [ ! -d ${deb_dir}/wheelhouse ]; then
+        mkdir -p ${deb_dir}/wheelhouse
+    fi
+    rm -fr ${deb_dir}/wheelhouse/*
     Build_ext
     Build_qmao
+    Build_tom
 fi
 if [ ${extonly} = false ]; then
+    if [ ! -d ${deb_dir}/pinormos-webds/webds-deb/var/spool/syna/jupyterlab_webds ]; then
+        mkdir -p ${deb_dir}/pinormos-webds/webds-deb/var/spool/syna/jupyterlab_webds
+    fi
     Build_deb
 fi
 end=`date +%s`
