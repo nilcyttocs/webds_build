@@ -29,6 +29,7 @@ declare -a exts=("webds_doc_launcher"
                 "webds_readme"
                 "webds_software_update"
                 "webds_status"
+                "webds_touch"
                 )
 
 declare -a q_exts=("reprogram"
