@@ -34,6 +34,7 @@ declare -a exts=("webds_doc_launcher"
 
 declare -a q_exts=("reprogram"
                 "server-extension"
+                "connection-settings"
                 )
 
 declare -a t_exts=("webds_device_info")
