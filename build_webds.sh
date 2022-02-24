@@ -76,6 +76,7 @@ Build_ext() {
         if [ ! -f tsconfig.tsbuildinfo ]; then
             pip3 install -ve .
         else
+            npm install
             jlpm run build
         fi
         rm -fr dist
@@ -110,6 +111,7 @@ Build_qmao() {
         if [ ! -f tsconfig.tsbuildinfo ]; then
             pip3 install -ve .
         else
+            npm install
             jlpm run build
         fi
         rm -fr dist
@@ -143,6 +145,7 @@ Build_tom() {
         if [ ! -f tsconfig.tsbuildinfo ]; then
             pip3 install -ve .
         else
+            npm install
             jlpm run build
         fi
         rm -fr dist
