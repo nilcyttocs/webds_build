@@ -22,7 +22,8 @@ deb_dir=${pdir}/${debrepo}
 
 echo ${ext_dir}
 
-declare -a exts=("webds_doc_launcher"
+declare -a exts=("webds_service"
+                "webds_doc_launcher"
                 "webds_documentation"
                 "webds_heatmap"
                 "webds_launcher"
