@@ -2,15 +2,14 @@
 
 set -e
 
+webds_repo=webds
+
 dir=`readlink -f .`
 pdir="$(dirname "$dir")"
 ppdir="$(dirname "$pdir")"
-
-webdsdebrepo=webds_deb
-webdsdeb_dir=${ppdir}/${webdsdebrepo}
-
-jupyterlabdebrepo=jupyterlab_deb
-jupyterlabdeb_dir=${ppdir}/${jupyterlabdebrepo}
+webds_dir=${ppdir}/${webds_repo}
+webdsdeb_dir=${webds_dir}/deb_packages/webds
+jupyterlabdeb_dir=${webds_dir}/deb_packages/jupyterlab
 
 pushd () {
     command pushd "$@" > /dev/null
@@ -20,7 +19,7 @@ popd () {
     command popd "$@" > /dev/null
 }
 
-pushd ${pdir}
+pushd ${webds_dir}
 ./build_webds.sh -d
 ./build_jupyterlab.sh
 popd
