@@ -51,5 +51,6 @@ git commit -m "${tag}"
 git tag "${tag}"
 if [ ${push} = true ]; then
     git push origin main
+    git push origin ${tag}
 fi
 popd
