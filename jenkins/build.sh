@@ -22,6 +22,7 @@ if [ ! -d ${webds_dir} ]; then
     git clone https://github.com/${github}/${webds_repo}.git ${webds_dir}
     pushd ${webds_dir}
     git submodule update --init
+    git submodule foreach 'git checkout main'
     popd
 else
     pushd ${webds_dir}
